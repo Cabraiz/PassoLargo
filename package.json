@@ -9,6 +9,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@firebase/auth": "1.2.0-20230815211035",
     "@jridgewell/sourcemap-codec": "^1.4.15",
     "@popperjs/core": "^2.11.7",
     "@reduxjs/toolkit": "^1.9.3",
@@ -62,6 +63,7 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.2.3",
     "redux-thunk": "^2.4.2",
+    "string-width": "^6.1.0",
     "styled-components": "^6.0.7",
     "ts-loader": "^9.4.2",
     "typescript": "^5.1.6",
@@ -111,8 +113,8 @@
     "@babel/preset-typescript": "^7.22.5",
     "@react-native-community/datetimepicker": "7.4.1",
     "@react-native-community/slider": "4.4.2",
-    "@storybook/addon-actions": "6.5.16",
-    "@storybook/addon-controls": "6.5.16",
+    "@storybook/addon-actions": "^7.3.1",
+    "@storybook/addon-controls": "^7.3.1",
     "@storybook/addon-essentials": "7.3.1",
     "@storybook/addon-interactions": "7.3.1",
     "@storybook/addon-links": "7.3.1",
@@ -124,7 +126,7 @@
     "@storybook/testing-library": "0.2.0",
     "@types/react-addons-update": "^0.14.21",
     "@types/styled-components": "^5.1.26",
-    "babel-loader": "8.3.0",
+    "babel-loader": "^9.1.3",
     "babel-plugin-named-exports-order": "0.0.2",
     "cspell": "^7.0.0",
     "eslint-config-prettier": "^9.0.0",
@@ -145,7 +147,12 @@
   },
   "resolutions": {
     "nth-check": ">=2.0.1",
-    "protobufjs": ">=7.2.4"
+    "protobufjs": ">=7.2.4",
+    "string-width": "^5.1.2",
+    "strip-ansi": "^7.0.1",
+    "wrap-ansi": "^8.1.0",
+    "@firebase/auth": "^1.1.0",
+    "react-scratchcard-v2": "^1.1.0"
   },
   "msw": {
     "workerDirectory": "public"
