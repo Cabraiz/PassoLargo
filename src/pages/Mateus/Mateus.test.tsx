@@ -1,4 +1,8 @@
-import React from "react";
+/**
+ * @jest-environment jsdom
+ */
+
+import '@testing-library/jest-dom';
 import {
   render,
   screen,
@@ -8,12 +12,14 @@ import {
 } from "@testing-library/react";
 import Mateus, { capitalizeFirstLetter, getSocialMediaName } from "./Mateus";
 
+
 jest.mock("react-device-detect", () => ({
   ...jest.requireActual("react-device-detect"),
   isMobile: true,
 }));
 
 jest.useFakeTimers(); 
+
 
 describe("Mateus", () => {
   test("should display correct title", async () => {
@@ -61,20 +67,23 @@ describe("Mateus", () => {
       "https://www.instagram.com/cabraiz/",
       "https://www.tiktok.com/@cabraiz",
     ];
-
+  
     await waitFor(() => {
       const socialMediaIcons = screen.queryAllByAltText(
         (content, element) =>
           ["LinkedIn", "Gmail", "Insta", "Tiktok"].includes(content) &&
           element?.tagName?.toLowerCase() === "img",
       );
-
+  
       expect(socialMediaIcons).toHaveLength(socialMediaLinks.length);
-
+  
       socialMediaIcons.forEach((icon, index) => {
         const socialMediaName = getSocialMediaName(index);
         const srcExpected = `Icon${capitalizeFirstLetter(socialMediaName)}.png`;
-
+  
+        console.log(`Expected src: ${srcExpected}`);
+        console.log(`Actual src: ${icon.getAttribute("src")}`);
+  
         expect(icon).toHaveAttribute("src", srcExpected);
         expect(icon).toHaveAttribute("alt", socialMediaName);
         const linkElement = screen.getByRole("link", { name: socialMediaName });

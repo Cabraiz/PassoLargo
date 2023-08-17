@@ -1,21 +1,23 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  width: 370px;
-  height: 644px;
-  overflow: hidden;
-  border-radius: 15px;
+interface ContainerProps {
+  ismobile: boolean;
+  realheight: string;
+}
 
-  @media (max-width: 414px) and (max-height: 896px) {
-    width: 100%;
-    height: 100%;
-    right: 0;
-    bottom: 0;
-    border-radius: 0;
-  }
+export const Container = styled.div<ContainerProps>`
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: ${props => props.realheight};
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  transform: translateX(${props => (props.ismobile ? "0%" : "-50%" )}) translateY(-50%); /* Centralizando verticalmente */
+  top: 50%; 
+  transform-origin: top
 `;
 
 export const Image = styled.img`

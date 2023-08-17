@@ -1,13 +1,28 @@
-import { Stage } from "./components/Stage";
+import React, { useEffect, useState } from "react";
+import { Stage } from "./components/Stage/stageIndex";
 import { Backdrop } from "./components/Backdrop";
 import { List } from "./components/List";
+import { isMobile } from "react-device-detect";
 
 const Principal = () => {
+  const [realHeight, setRealHeight] = useState('0px')
+
+  
+  useEffect(() => {
+    if (isMobile) {
+      setRealHeight(`${window.innerHeight}px`);
+    } else {
+      setRealHeight("100vh");
+    }
+  }, []);
+
   return (
-    <>
+    <React.Fragment>
       <Stage
         imageUrl="https://lojausereserva.vtexassets.com/arquivos/ids/7956078-1200-auto?v=638248721303730000&width=1200&height=auto&aspect=true"
         currentPrice="R$ 269,99"
+        realheight={realHeight}
+        ismobile={isMobile}
       />
       <Backdrop>
         <List>
@@ -25,7 +40,7 @@ const Principal = () => {
           </button>
         </List>
       </Backdrop>
-    </>
+    </React.Fragment>
   );
 };
 
