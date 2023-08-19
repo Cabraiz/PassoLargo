@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
 import { worker } from "./redux/mocks/browser";
+import GlobalStyle from "./GlobalStyle";
 
 const handleWebVitals = (metric: any) => {};
 
@@ -30,6 +31,7 @@ const MainApp: FC = () => {
       <Provider store={store}>
         <ChakraProvider>
           <BrowserRouter>
+            <GlobalStyle />
             <Suspense fallback={<div>Loading...</div>}>
               <App />
             </Suspense>
