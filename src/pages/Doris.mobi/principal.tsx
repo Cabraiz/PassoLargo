@@ -29,8 +29,7 @@ const Principal = () => {
           <button>
             <img
               style={{
-                width: 100,
-                height: 100,
+                width: "100%",
                 objectFit: "cover",
                 margin: "0 10px",
               }}

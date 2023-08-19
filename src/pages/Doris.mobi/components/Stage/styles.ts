@@ -1,43 +1,46 @@
 import styled from "styled-components";
 
 interface ContainerProps {
-  ismobile: boolean;
+  ismobile: "true" | "false";
   realheight: string;
 }
 
 export const Container = styled.div<ContainerProps>`
   position: fixed;
-  bottom: 0;
-  right: 0;
-  height: ${props => props.realheight};
-  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
-  transform: translateX(${props => (props.ismobile ? "0%" : "-50%" )}) translateY(-50%); /* Centralizando verticalmente */
-  top: 50%; 
-  transform-origin: top
+  justify-content: center;
+  width: 100%;
+  height: ${props => props.realheight};
 `;
 
+
 export const Image = styled.img`
+  background-color: #313131;
   object-fit: cover;
-  width: 100%;
   height: 100%;
   pointer-events: none;
+  border-radius: 3.73vh;
 `;
 
 export const PriceTag = styled.span`
-  background: #00a2ff;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 5px;
   position: absolute;
-  top: 50%;
-  left: 15px;
-  padding: 5px 10px;
-  transform: translateY(-50%);
+  font-family: 'Montserrat';
+  padding:  0.93vh 2.7% 0.93vh 2.7%;
+  white-space: nowrap;
+  border-radius: 10vh;
+  background: #00A2FF;
+  color: #FFFFFF;
+  font-size: 1.56vh;
+  line-height: 1.87vh;
+  left: 7.03%;
+  top:50%;
   pointer-events: none;
   z-index: 2;
+`;
+
+export const ImageWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  background-color: #323232;
+  padding: 1.43vh;
 `;
