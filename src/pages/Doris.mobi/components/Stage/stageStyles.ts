@@ -33,7 +33,7 @@ export const PriceTag = styled.span`
   font-size: 1.56vh;
   line-height: 1.87vh;
   left: 7.03%;
-  top:50%;
+  top:36.55%;
   pointer-events: none;
   z-index: 2;
 `;
