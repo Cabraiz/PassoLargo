@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   position: absolute;
   left:var(--image-wrapper-padding);
-  bottom:0;
+  bottom:var(--image-wrapper-padding);
   background: #fff;
   z-index: 3;
   border-radius: 15px;
@@ -19,7 +19,7 @@ export const Header = styled.div`
   align-items: center;
   margin-top: 3.11vh;
   margin-bottom: 3.11vh;
-  margin-inline: 7.12%;
+  margin-inline: 4.32%;
 `;
 
 export const Text = styled.div`
@@ -39,5 +39,5 @@ export const ClearButton = styled.button`
   border: none;
   color: white;
   cursor: pointer;
-  border-radius: 0px 8px 0px 8px;
+  border-radius: 0px 1vh 0px 1vh;
 `;

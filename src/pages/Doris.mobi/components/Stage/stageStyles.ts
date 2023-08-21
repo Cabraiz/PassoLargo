@@ -11,6 +11,7 @@ export const Container = styled.div<ContainerProps>`
   justify-content: center;
   width: 100%;
   height: ${props => props.realheight};
+  background-color: #323232;
 `;
 
 
@@ -41,6 +42,5 @@ export const PriceTag = styled.span`
 export const ImageWrapper = styled.div`
   position: relative;
   display: inline-block;
-  background-color: #323232;
-  padding: var(--image-wrapper-padding);
+  margin: var(--image-wrapper-padding);
 `;
