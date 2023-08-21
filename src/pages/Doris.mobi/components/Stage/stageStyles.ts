@@ -42,5 +42,5 @@ export const ImageWrapper = styled.div`
   position: relative;
   display: inline-block;
   background-color: #323232;
-  padding: 1.43vh;
+  padding: var(--image-wrapper-padding);
 `;

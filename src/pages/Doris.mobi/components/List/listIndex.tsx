@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 
-import { OuterWrapper, InnerWrapper } from "./styles";
+import { OuterWrapper, InnerWrapper } from "./listStyles";
 
 interface ListProps {
   children: ReactNode;
