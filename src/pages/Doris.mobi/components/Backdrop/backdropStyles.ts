@@ -24,6 +24,7 @@ export const Header = styled.div`
 
 export const Text = styled.div`
   font-family: 'Montserrat';
+  font-weight: 700;
   font-size: 2.49vh;
   line-height: 1.87vh;
   color: #000000;
@@ -31,6 +32,7 @@ export const Text = styled.div`
 
 export const ClearButton = styled.button`
   font-family: 'Montserrat';
+  font-weight: 600;
   font-size: 1.56vh;
   line-height: 1.87vh;
   color: #000000;

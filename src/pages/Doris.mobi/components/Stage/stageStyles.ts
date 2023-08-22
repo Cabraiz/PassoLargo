@@ -26,6 +26,7 @@ export const Image = styled.img`
 export const PriceTag = styled.span`
   position: absolute;
   font-family: 'Montserrat';
+  font-weight: 700;
   padding:  0.93vh 2.7% 0.93vh 2.7%;
   white-space: nowrap;
   border-radius: 10vh;

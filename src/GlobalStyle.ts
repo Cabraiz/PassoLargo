@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import Montserrat from "./fonts/Montserrat/Montserrat-Bold.ttf";
+import MontserratBold from "./fonts/Montserrat/Montserrat-Bold.ttf";
+import MontserratSemiBold from "./fonts/Montserrat/Montserrat-SemiBold.ttf";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -9,7 +10,14 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'Montserrat';
-    src: url(${Montserrat}) format('truetype')
+    font-weight: 700;
+    src: url(${MontserratBold}) format('truetype')
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    src: url(${MontserratSemiBold}) format('truetype')
   }
 `;
 
