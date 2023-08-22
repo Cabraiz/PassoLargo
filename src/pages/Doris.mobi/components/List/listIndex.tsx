@@ -1,13 +1,15 @@
 import { FC, ReactNode } from "react";
 
-import { OuterWrapper, InnerWrapper } from "./listStyles";
+import { StyledList, ButtonWithImage } from "./listStyles";
 
 interface ListProps {
   children: ReactNode;
 }
 
 export const List: FC<ListProps> = ({ children }) => (
-  <OuterWrapper>
-    <InnerWrapper>{children}</InnerWrapper>
-  </OuterWrapper>
+  <StyledList>
+    <ButtonWithImage>
+      {children}
+    </ButtonWithImage>
+  </StyledList>
 );

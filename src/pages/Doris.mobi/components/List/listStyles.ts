@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
-export const OuterWrapper = styled.div`
-  width: calc(100% + 30px);
-  margin-left: -15px;
-  margin-right: -15px;
+
+export const StyledList = styled.div`
+  position: absolute;
+  bottom: 0;
+  margin: 0 4.34% 3.11vh 4.34%;
+  display: flex;
+  align-items: flex-end;
 `;
 
-export const InnerWrapper = styled.div`
-  display: block;
+export const ButtonWithImage = styled.button`
+  border: 0.4vh solid #EAEAEA;
+  background-color: #EAEAEA;
+  border-radius: 1.24vh;
 `;
