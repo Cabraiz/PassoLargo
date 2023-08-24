@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  overflow: hidden;
   position: absolute;
   left:var(--image-wrapper-padding);
   bottom:var(--image-wrapper-padding);
