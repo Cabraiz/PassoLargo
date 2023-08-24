@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Stage } from "./components/Stage/stageIndex";
 import { Backdrop } from "./components/Backdrop/backdropIndex";
 import { List } from "./components/List/listIndex";
+
+import ProductList from './data/ProductListSearch'
+import { Product } from './data/models/ProductList.interface'
+
 import { isMobile } from "react-device-detect";
+import productValidation from "./validation/productValidation";
 
 const Principal = () => {
   const [realHeight, setRealHeight] = useState('0px')
-
+  const [products, setProducts] = useState<Product[]>([]);
   
   useEffect(() => {
     if (isMobile) {
@@ -14,30 +19,32 @@ const Principal = () => {
     } else {
       setRealHeight("100vh");
     }
+  
+    const loadedProductList = ProductList({ quantity: 5 });
+    setProducts(productValidation(loadedProductList));
+
   }, []);
 
   return (
     <React.Fragment>
       <Stage
-        imageUrl="https://lojausereserva.vtexassets.com/arquivos/ids/7956078-1200-auto?v=638248721303730000&width=1200&height=auto&aspect=true"
-        currentPrice="R$ 269,99"
+        imageUrl={`${products.length > 0 ? products[0].preview_image : ""}`}
+        currentPrice={`${products.length > 0 ? products[0].selling_priceFormatted : ""}`}
         realheight={realHeight}
         ismobile={isMobile}
       >
         <Backdrop
         >
           <List>
-            <button>
-              <img
-                style={{
-                  height:"27.03vw",
-                  objectFit: "cover",
-                  margin: "0 10px",
-                }}
-                src="https://lojausereserva.vtexassets.com/arquivos/ids/7956077-1200-auto?v=638248721291830000&width=1200&height=auto&aspect=true"
-                alt=""
-              />
-            </button>
+            <img
+              style={{
+                objectFit: "cover",
+                height: "15.55vh",
+                width: "15.55vh",
+              }}
+              src={`${products.length > 0 ? products[0].thumbnail : ""}`}
+              alt=""
+            />
           </List>
         </Backdrop>
       </Stage>

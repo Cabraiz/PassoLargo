@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 
-import { Container, Text, Header, ClearButton } from "./backdropStyles";
+import { Container, Title, Header, ClearButton } from "./backdropStyles";
 
 interface BackdropProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface BackdropProps {
 export const Backdrop: FC<BackdropProps> = ({ children }) => (
   <Container>
     <Header>
-      <Text>Combinar</Text>
+      <Title>Combinar</Title>
       <ClearButton>Limpar</ClearButton>
     </Header>
     {children}

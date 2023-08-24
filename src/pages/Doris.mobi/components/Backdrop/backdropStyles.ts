@@ -22,7 +22,7 @@ export const Header = styled.div`
   margin-inline: 4.32%;
 `;
 
-export const Text = styled.div`
+export const Title = styled.div`
   font-family: 'Montserrat';
   font-weight: 700;
   font-size: 2.49vh;
