@@ -13,7 +13,7 @@ export interface Product {
   active?: boolean;
   category?: object;
   
-
+  id: number;
   currency?: Currency;
   selling_priceFormatted?: string;
 }

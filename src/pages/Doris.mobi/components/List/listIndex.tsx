@@ -1,71 +1,45 @@
-import { FC, ReactNode, useState } from "react";
-
+import { FC, ReactNode } from "react"; // Import useRef
 import { StyledList, ButtonWithImage } from "./listStyles";
+import { Product } from "../../data/models/ProductList.interface";
+import { useDraggableList } from "./useDraggableList";
 
 interface ListProps {
   children: ReactNode;
+  products: Product[];
 }
 
-export const List: FC<ListProps> = ({ children }) => {
-  const [dragStartX, setDragStartX] = useState<number | null>(null);
-  const [dragOffset, setDragOffset] = useState(0);
+export const List: FC<ListProps> = ({ products }) => {
+  //const containerRef = useRef<HTMLDivElement | null>(null); 
+  //const totalImagesWidth = products.length * 15.55; // Total width of all images
+  //const containerWidth = containerRef.current?.clientWidth ?? 0;
+  //const adjustedContainerWidth = Math.max(totalImagesWidth, containerWidth);
 
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    setDragStartX(event.clientX);
-  };
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (dragStartX !== null) {
-      const offsetX = event.clientX - dragStartX;
-      setDragOffset(offsetX);
-    }
-  };
-
-  const handleMouseUp = () => {
-    if (dragStartX !== null) {
-      setDragStartX(null);
-      setDragOffset(0);
-    }
-  };
-
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    setDragStartX(event.touches[0].clientX);
-  };
-
-  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (dragStartX !== null) {
-      const touchX = event.touches[0].clientX;
-      const offsetX = touchX - dragStartX;
-      setDragOffset(offsetX);
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (dragStartX !== null) {
-      setDragStartX(null);
-      setDragOffset(0);
-    }
-  };
+  const { containerRef, bindHandlers, transformStyle } = useDraggableList();
 
   return (
     <StyledList
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      style={{ transform: `translateX(${dragOffset}px)` }}
+      ref={containerRef}
+      {...bindHandlers}
+      style={{
+        ...transformStyle,
+        display: "flex",
+        overflow: "hidden",
+      }}
     >
-      {Array.from({ length: 10 }, (_, i) => (
-        <ButtonWithImage key={i}>
-          {children}
+      {products.map((product) => (
+        <ButtonWithImage key={product.id}>
+         <img
+            style={{
+              objectFit: "cover",
+              height: "15.55vh",
+              width: "15.55vh",
+            }}
+            src={product.thumbnail}
+            alt=""
+            onDragStart={(e) => e.preventDefault()} // Adicione esta linha
+          />
         </ButtonWithImage>
       ))}
     </StyledList>
   );
 };
-
-
-
-

@@ -13,7 +13,7 @@ const productValidation = (products: Product[]) => {
             throw new Error('O nome do produto é obrigatório.');
         }
 
-        if (!product.selling_price) {
+        /*if (!product.selling_price) {
             throw new Error(`O preço de venda do produto "${product.name}" é obrigatório.`);
         }
 
@@ -28,6 +28,7 @@ const productValidation = (products: Product[]) => {
         if (!product.currency || !validCurrencies.includes(product.currency)) {
             throw new Error(`A moeda do produto "${product.name}" não é válida: ${product.currency}`);
         }
+        */
 
         validatedProducts.push(product);
     }

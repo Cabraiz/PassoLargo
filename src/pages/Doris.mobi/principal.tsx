@@ -20,7 +20,7 @@ const Principal = () => {
       setRealHeight("100vh");
     }
   
-    const loadedProductList = ProductList({ quantity: 5 });
+    const loadedProductList = ProductList();
     setProducts(productValidation(loadedProductList));
 
   }, []);
@@ -33,18 +33,8 @@ const Principal = () => {
         realheight={realHeight}
         ismobile={isMobile}
       >
-        <Backdrop
-        >
-          <List>
-            <img
-              style={{
-                objectFit: "cover",
-                height: "15.55vh",
-                width: "15.55vh",
-              }}
-              src={`${products.length > 0 ? products[0].thumbnail : ""}`}
-              alt=""
-            />
+        <Backdrop>
+          <List products={products}>
           </List>
         </Backdrop>
       </Stage>

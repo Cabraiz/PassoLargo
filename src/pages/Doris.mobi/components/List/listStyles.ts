@@ -15,13 +15,16 @@ export const StyledList = styled.div`
 
 export const ButtonWithImage = styled.button`
   display: inline-block;
-  width: 15.55vh;
-  height: 15.55vh;
-  margin-right: 15px;
+  width: max-content;
+  height: max-content;
+  margin-right: 10px;
   padding: 0;
   border: 0.4vh solid #EAEAEA;
   background-color: #EAEAEA;
   border-radius: 1.24vh;
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-x;
 `;
+
 
