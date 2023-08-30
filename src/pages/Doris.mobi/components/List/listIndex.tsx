@@ -6,16 +6,12 @@ import { useDraggableList } from "./useDraggableList";
 interface ListProps {
   children: ReactNode;
   products: Product[];
+  width: number | undefined;
 }
 
-export const List: FC<ListProps> = ({ products }) => {
-  //const containerRef = useRef<HTMLDivElement | null>(null); 
-  //const totalImagesWidth = products.length * 15.55; // Total width of all images
-  //const containerWidth = containerRef.current?.clientWidth ?? 0;
-  //const adjustedContainerWidth = Math.max(totalImagesWidth, containerWidth);
-
-  const { containerRef, bindHandlers, transformStyle } = useDraggableList();
-
+export const List: FC<ListProps> = ({ products, width }) => {
+  const { containerRef, bindHandlers, transformStyle } = useDraggableList({ products, width });
+  
   return (
     <StyledList
       ref={containerRef}
@@ -27,7 +23,7 @@ export const List: FC<ListProps> = ({ products }) => {
       }}
     >
       {products.map((product) => (
-        <ButtonWithImage key={product.id}>
+        <ButtonWithImage key={product.id} >
          <img
             style={{
               objectFit: "cover",
@@ -36,7 +32,7 @@ export const List: FC<ListProps> = ({ products }) => {
             }}
             src={product.thumbnail}
             alt=""
-            onDragStart={(e) => e.preventDefault()} // Adicione esta linha
+            onDragStart={(e) => e.preventDefault()}
           />
         </ButtonWithImage>
       ))}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Stage } from "./components/Stage/stageIndex";
 import { Backdrop } from "./components/Backdrop/backdropIndex";
 import { List } from "./components/List/listIndex";
@@ -12,7 +12,10 @@ import productValidation from "./validation/productValidation";
 const Principal = () => {
   const [realHeight, setRealHeight] = useState('0px')
   const [products, setProducts] = useState<Product[]>([]);
-  
+
+  const backdropRef = useRef<HTMLDivElement | null>(null);
+  const backdropWidth = backdropRef.current?.offsetWidth || 0;
+
   useEffect(() => {
     if (isMobile) {
       setRealHeight(`${window.innerHeight}px`);
@@ -33,8 +36,8 @@ const Principal = () => {
         realheight={realHeight}
         ismobile={isMobile}
       >
-        <Backdrop>
-          <List products={products}>
+        <Backdrop ref={backdropRef}>
+          <List products={products} width={backdropWidth}>
           </List>
         </Backdrop>
       </Stage>

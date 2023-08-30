@@ -1,9 +1,36 @@
-import { useRef, useState } from "react";
+import { useRef, useState, MutableRefObject  } from "react";
+import { Product } from "../../data/models/ProductList.interface";
 
-export const useDraggableList = () => {
+interface DraggableListProps {
+  products: Product[];
+  width: number | undefined;
+}
+
+export const useDraggableList = (props: DraggableListProps): {
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  bindHandlers: {
+    onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
+    onMouseMove: (event: React.MouseEvent<HTMLDivElement>) => void;
+    onMouseUp: () => void;
+    onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
+    onTouchEnd: () => void;
+  };
+  transformStyle: React.CSSProperties;
+} => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
+
+  //let maxOffset = -(props.products.length) * props.width - (props.products.length - 1) * 10;
+  console.log(props.width);
+
+  const width = props.width ?? 0;
+  let maxOffset = -width;
+
+  if (containerRef.current) {
+    maxOffset = -containerRef.current.offsetWidth + width * 93/100;
+  } 
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault(); // Adicione esta linha
@@ -19,7 +46,13 @@ export const useDraggableList = () => {
     }
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = () => {  
+    if (dragOffset > 0) {
+      setDragOffset(0); // Reset the dragOffset to 0 if dragged to the right
+    } else if (dragOffset < maxOffset) {
+      setDragOffset(maxOffset); 
+    }
+  
     setDragStartX(null);
   };
 
@@ -39,22 +72,14 @@ export const useDraggableList = () => {
     }
   };
 
-  const handleTouchEnd = () => {
-    setDragStartX(null);
-  };
-
-  const handleSwipeGesture = (event: React.TouchEvent<HTMLDivElement>) => {
-    const touchX = event.changedTouches[0].clientX;
-    const offsetX = touchX - (dragStartX ?? 0);
-
-    if (offsetX > 100) {
-      setDragOffset(0);
-    } else if (offsetX < -1000) {
-      const listWidth = containerRef.current?.scrollWidth ?? 0;
-      const containerWidth = containerRef.current?.clientWidth ?? 0;
-      const maxOffset = containerWidth - listWidth;
-      setDragOffset(maxOffset);
+  const handleTouchEnd = () => {  
+    if (dragOffset > 0) {
+      setDragOffset(0); // Reset the dragOffset to 0 if dragged to the right
+    } else if (dragOffset < maxOffset) {
+      setDragOffset(maxOffset); 
     }
+  
+    setDragStartX(null);
   };
 
   const bindHandlers = {
@@ -63,9 +88,8 @@ export const useDraggableList = () => {
     onMouseUp: handleMouseUp,
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
-    onTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => {
+    onTouchEnd: () => {
       handleTouchEnd();
-      handleSwipeGesture(event);
     },
   };
 
