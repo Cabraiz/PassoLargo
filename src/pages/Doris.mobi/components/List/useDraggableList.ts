@@ -1,4 +1,4 @@
-import { useRef, useState, MutableRefObject  } from "react";
+import { useRef, useState } from "react";
 import { Product } from "../../data/models/ProductList.interface";
 
 interface DraggableListProps {
@@ -6,24 +6,21 @@ interface DraggableListProps {
   width: number | undefined;
 }
 
-export const useDraggableList = (props: DraggableListProps): {
-  containerRef: MutableRefObject<HTMLDivElement | null>;
-  bindHandlers: {
-    onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onMouseMove: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onMouseUp: () => void;
-    onMouseLeave: () => void;
-    onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
-    onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
-    onTouchEnd: () => void;
-    onClick: () => void;
-  };
-  transformStyle: React.CSSProperties;
-} => {
+interface BindHandlers {
+  onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseMove: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseUp: () => void;
+  onMouseLeave: () => void;
+  onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
+  onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
+  onTouchEnd: () => void;
+  onClick: () => void;
+}
+
+export const useDraggableList = (props: DraggableListProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
-  
   const [animationActive, setAnimationActive] = useState(false);
 
   const width = props.width ?? 0;
@@ -44,7 +41,7 @@ export const useDraggableList = (props: DraggableListProps): {
   };
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault(); // Adicione esta linha
+    event.preventDefault();
     setDragStartX(event.clientX);
   };
 
@@ -117,7 +114,7 @@ export const useDraggableList = (props: DraggableListProps): {
     setDragStartX(null);
   };
 
-  const bindHandlers = {
+  const bindHandlers: BindHandlers = {
     onMouseLeave: handleMouseLeave, 
     onMouseDown: handleMouseDown,
     onMouseMove: handleMouseMove,
