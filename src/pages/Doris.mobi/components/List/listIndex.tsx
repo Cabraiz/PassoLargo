@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react"; // Import useRef
+import { FC } from "react"; 
 import { StyledList, ButtonWithImage } from "./listStyles";
 import { Product } from "../../data/models/ProductList.interface";
 import { useDraggableList } from "./useDraggableList";

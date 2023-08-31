@@ -46,7 +46,6 @@ const Principal = () => {
         imageUrl={firstProduct?.preview_image || ""}
         currentPrice={firstProduct?.selling_priceFormatted || ""}
         realheight={RealHeight()}
-        ismobile={isMobile}
       >
         <Backdrop ref={backdropRef}>
           <List products={products} width={backdropWidth} />
