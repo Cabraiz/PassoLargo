@@ -4,7 +4,6 @@ import { Product } from "../../data/models/ProductList.interface";
 import { useDraggableList } from "./useDraggableList";
 
 interface ListProps {
-  children: ReactNode;
   products: Product[];
   width: number | undefined;
 }

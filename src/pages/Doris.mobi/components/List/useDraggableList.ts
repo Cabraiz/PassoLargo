@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Product } from "../../data/models/ProductList.interface";
+import { isMobile } from "react-device-detect";
 
 interface DraggableListProps {
   products: Product[];
@@ -14,120 +15,56 @@ interface BindHandlers {
   onTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
   onTouchMove: (event: React.TouchEvent<HTMLDivElement>) => void;
   onTouchEnd: () => void;
-  onClick: () => void;
 }
 
 export const useDraggableList = (props: DraggableListProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
-  const [animationActive, setAnimationActive] = useState(false);
-
-  const width = props.width ?? 0;
-
-  const leftBoundary = 0;
-
-  let rightBoundary = -width;
-  if (containerRef.current) {
-    rightBoundary = -containerRef.current.offsetWidth + width * 93/100;
-  }
   
-  const updateDragOffsetToNearestBoundary = () => {
-    if (dragOffset > leftBoundary) {
-      setDragOffset(leftBoundary);
-    } else if (dragOffset < rightBoundary) {
-      setDragOffset(rightBoundary);
-    }
+  const backdropWidth = props.width ?? 0;
+
+  const containerWidth = containerRef.current?.offsetWidth ?? 0;
+  const rightBoundary = -containerWidth + backdropWidth * 93 / 100;
+
+  useEffect(() => {
+    const newDragOffset = Math.min(Math.max(dragOffset, rightBoundary), 0);
+    setDragOffset(newDragOffset);
+  }, [dragOffset, rightBoundary]);
+
+  const handleDragStart = (clientX: number) => {
+    setDragStartX(clientX);
   };
 
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setDragStartX(event.clientX);
-  };
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleDragMove = (clientX: number) => {
     if (dragStartX !== null) {
-      const offsetX = event.clientX - dragStartX;
-      const newDragOffset = dragOffset + offsetX;
-      setDragOffset(newDragOffset);
-      setDragStartX(event.clientX);
+      const offsetX = clientX - dragStartX;
+      setDragOffset(prevOffset => prevOffset + offsetX);
+      setDragStartX(clientX);
     }
   };
 
-  const handleMouseUp = () => {
-    if (animationActive) {
-      setAnimationActive(false);
-    } else {
-      updateDragOffsetToNearestBoundary();
-    }
+  const handleDragEnd = () => {
+    const newDragOffset = Math.min(Math.max(dragOffset, rightBoundary), 0);
+    setDragOffset(newDragOffset);
     setDragStartX(null);
-  };
-
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setDragStartX(event.touches[0].clientX);
-  };
-
-  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    if (dragStartX !== null) {
-      const touchX = event.touches[0].clientX;
-      const offsetX = touchX - dragStartX;
-      const newDragOffset = dragOffset + offsetX;
-      setDragOffset(newDragOffset);
-      setDragStartX(touchX);
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (animationActive) {
-      setAnimationActive(false);
-    } else {
-      if (dragOffset > leftBoundary) {
-        setDragOffset(leftBoundary);
-      } else if (dragOffset < rightBoundary) {
-        setDragOffset(rightBoundary);
-      }
-    }
-    setDragStartX(null);
-  };
-
-  const handleInteraction = () => {
-    if (!animationActive) {
-      const distance = props.width ? props.width / 4 : 0;
-      const targetOffset = dragOffset + (dragOffset > 0 ? distance : -distance);
-      
-      if (targetOffset > leftBoundary) {
-        setDragOffset(leftBoundary);
-      } else if (targetOffset < rightBoundary) {
-        setDragOffset(rightBoundary);
-      } else {
-        setDragOffset(targetOffset);
-      }
-      
-      setAnimationActive(true);
-    }
   };
 
   const handleMouseLeave = () => {
-    updateDragOffsetToNearestBoundary();
-    setDragStartX(null);
+    handleDragEnd();
   };
 
   const bindHandlers: BindHandlers = {
     onMouseLeave: handleMouseLeave, 
-    onMouseDown: handleMouseDown,
-    onMouseMove: handleMouseMove,
-    onMouseUp: handleMouseUp,
-    onTouchStart: handleTouchStart,
-    onTouchMove: handleTouchMove,
-    onTouchEnd: () => {
-      handleTouchEnd();
-    },
-    onClick: handleInteraction,
+    onMouseDown: (event) => handleDragStart(event.clientX),
+    onMouseMove: (event) => handleDragMove(event.clientX),
+    onMouseUp: handleDragEnd,
+    onTouchStart: (event) => handleDragStart(event.touches[0].clientX),
+    onTouchMove: (event) => handleDragMove(event.touches[0].clientX),
+    onTouchEnd: handleDragEnd,
   };
 
-  const transitionValue: string = "transform 0.6s ease";
+  const transitionValue = isMobile ? "" : "transform 0.2s ease";
 
   const transformStyle = {
     transform: `translateX(${dragOffset}px)`,
