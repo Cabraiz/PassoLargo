@@ -6,23 +6,17 @@ import { List } from "./components/List/listIndex";
 import ProductList from './data/ProductListSearch'
 import { Product } from './data/models/ProductList.interface'
 
-import { isMobile } from "react-device-detect";
+import RealHeight from "../Auxiliadores/RealHeight";
 import productValidation from "./validation/productValidation";
+import { isMobile } from "react-device-detect";
 
 const Principal = () => {
-  const [realHeight, setRealHeight] = useState('0px')
   const [products, setProducts] = useState<Product[]>([]);
 
   const backdropRef = useRef<HTMLDivElement | null>(null);
-  const backdropWidth = backdropRef.current?.offsetWidth || 0;
+  const backdropWidth = backdropRef.current?.offsetWidth ?? 0;
 
   useEffect(() => {
-    if (isMobile) {
-      setRealHeight(`${window.innerHeight}px`);
-    } else {
-      setRealHeight("100vh");
-    }
-  
     const loadedProductList = ProductList();
     setProducts(productValidation(loadedProductList));
 
@@ -33,7 +27,7 @@ const Principal = () => {
       <Stage
         imageUrl={`${products.length > 0 ? products[0].preview_image : ""}`}
         currentPrice={`${products.length > 0 ? products[0].selling_priceFormatted : ""}`}
-        realheight={realHeight}
+        realheight={RealHeight()}
         ismobile={isMobile}
       >
         <Backdrop ref={backdropRef}>

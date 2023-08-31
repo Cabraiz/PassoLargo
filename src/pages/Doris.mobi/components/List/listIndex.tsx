@@ -25,6 +25,7 @@ export const List: FC<ListProps> = ({ products, width }) => {
       {products.map((product) => (
         <ButtonWithImage key={product.id} >
          <img
+            loading="lazy"
             style={{
               objectFit: "cover",
               height: "15.55vh",
