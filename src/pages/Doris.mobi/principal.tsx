@@ -6,7 +6,6 @@ import ProductList from './data/ProductListSearch'
 import { Product } from './data/models/ProductList.interface'
 import RealHeight from "../Auxiliadores/RealHeight";
 import productValidation from "./validation/productValidation";
-import { isMobile } from "react-device-detect";
 
 const Principal = () => {
   const [products, setProducts] = useState<Product[]>([]);

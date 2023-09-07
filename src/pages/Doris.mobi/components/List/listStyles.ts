@@ -12,7 +12,7 @@ export const StyledList = styled.div`
   cursor: grab;
   touch-action: pan-x;
 
-  ${isMobile ? "transition: none;" : "transition: transform 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);"}
+  transition: ${isMobile ? "none" : "transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)"};
 
   user-select: none;
   -webkit-touch-callout: none;
