@@ -215,16 +215,17 @@ function App() {
                     }`}
                     href={`#${link.toLowerCase()}`}
                     onClick={handleLinkClick(link)}
-                  >
-                    {link === "Live" && (
-                      <div>
+                  > 
+                  {link === "Live" && (
+                    <div className="live-container">
+                      <span className="live-img">
                         <LiveAnimation />
-                      </div>
-                    )}
-                    <span style={{ marginLeft: link === "Live" ? '5px' : '0' }}>
+                      </span>
                       {link}
-                    </span>
-                  </Nav.Link>
+                    </div>
+                  )}
+                  {link !== "Live" && <span>{link}</span>}
+                </Nav.Link>
                 ))}
               </Nav>
               <Button

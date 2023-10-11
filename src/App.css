@@ -66,3 +66,15 @@ body {
   background-color: rgba(255, 255, 255, 0.85);
   width: 100%;
 }
+
+.live-container {
+  position: relative;
+  display: inline-block;
+}
+
+.live-img {
+  position: absolute;
+  top: -0.7rem;
+  left: -1.3rem;
+  z-index: -1;
+}
