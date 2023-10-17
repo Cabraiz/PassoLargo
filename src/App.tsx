@@ -11,7 +11,7 @@ import "./pages/LoginHubLocal/login.css";
 import "./pages/Mateus/Mateus.css";
 import "./pages/Surprise/Surprise.css";
 
-import { Row, Navbar, Image, Button, Nav } from "react-bootstrap";
+import { NavDropdown, Navbar, Image, Button, Nav } from "react-bootstrap";
 
 import logo from "./assets/icones/logo.svg";
 import logoGmail from "./assets/icones/7.svg";
@@ -40,6 +40,7 @@ const BUTTON_TEXT_SIGN_IN = "Sign In With Google";
 const BUTTON_TEXT_SIGN_OUT = "Sign Out";
 
 function App() {
+  const [showDropdown, setShowDropdown] = useState(false);
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [signInStatus, setsignInStatus] = useState(["", false]);
   const [selectedLink, setSelectedLink] = useState("Home");
@@ -183,6 +184,7 @@ function App() {
           className="border-gradient-green"
           style={{
             justifyContent: "space-between",
+            alignItems: "center",
             height: "11vh",
             fontWeight: "600",
             paddingTop: "0px",
@@ -192,70 +194,89 @@ function App() {
             marginBottom: "0",
           }}
         >
-          <Image
-            src={logo}
+          <Navbar>
+            <Image
+              src={logo}
+              style={{
+                marginLeft: `${convertMultiplyVwToPx()}px`,
+                marginRight: "4vw",
+                marginTop: "0.5vh",
+                borderRadius: "20%",
+                width: "8.5vh",
+                height: "8.5vh",
+              }}
+            />
+            {!isMobile ? (
+              // Render Nav element and Nav.Link elements for non-mobile devices
+              <>
+                <Nav id="nav-dropdown" style={{ display: 'inline-flex', alignItems: 'start', marginRight: '0', paddingRight: '0' }}>
+                  {links.map((link) => (
+                    <Nav.Link
+                      key={link}
+                      className={`text-nowrap nav-link-custom ${
+                        selectedLink === link ? "active" : ""
+                      }`}
+                      href={`#${link.toLowerCase()}`}
+                      onClick={handleLinkClick(link)}
+                    > 
+                    {link === "Live" && (
+                      <div className="live-container">
+                        <span className="live-img">
+                          <LiveAnimation />
+                        </span>
+                        {link}
+                      </div>
+                    )}
+                    {link !== "Live" && <span>{link}</span>}
+                  </Nav.Link>
+                  ))}
+                
+                </Nav>
+                
+                
+                {/*<Button
+                  style={{
+                    marginRight: "4vw",
+                    width: "auto",
+                    height: "6vh",
+                    fontSize: "1rem",
+                    backgroundColor: "white",
+                    color: "rgba(100, 100, 100)",
+                    fontWeight: "500",
+                    borderColor: "white",
+                  }}
+                  onClick={SignFirebase}
+                >
+                  <Row className="m-0 ps-0 pe-0" style={{ alignItems: "center" }}>
+                    <Image
+                      src={logoGmail}
+                      style={{
+                        width: "calc(15px + 0.3vw)",
+                        margin: "0",
+                        padding: "0",
+                        height: "100%",
+                      }}
+                    ></Image>
+                    &nbsp;&nbsp;{signInStatus}
+                  </Row>
+                </Button>
+                */}
+              </>
+            ) : null}
+          </Navbar>
+          <Nav>
+            <NavDropdown title={<span>Olá, Usuário <br></br><b>Minha Conta</b> </span>} 
             style={{
-              marginLeft: `${convertMultiplyVwToPx()}px`,
-              marginRight: "20px",
-              marginTop: "0.5vh",
-              borderRadius: "20%",
-              width: "8.5vh",
-              height: "8.5vh",
-            }}
-          />
-          {!isMobile ? (
-            // Render Nav element and Nav.Link elements for non-mobile devices
-            <>
-              <Nav id="nav-dropdown" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                {links.map((link) => (
-                  <Nav.Link
-                    key={link}
-                    className={`text-nowrap nav-link-custom ${
-                      selectedLink === link ? "active" : ""
-                    }`}
-                    href={`#${link.toLowerCase()}`}
-                    onClick={handleLinkClick(link)}
-                  > 
-                  {link === "Live" && (
-                    <div className="live-container">
-                      <span className="live-img">
-                        <LiveAnimation />
-                      </span>
-                      {link}
-                    </div>
-                  )}
-                  {link !== "Live" && <span>{link}</span>}
-                </Nav.Link>
-                ))}
-              </Nav>
-              <Button
-                style={{
-                  marginRight: "4vw",
-                  width: "auto",
-                  height: "6vh",
-                  fontSize: "1rem",
-                  backgroundColor: "white",
-                  color: "rgba(100, 100, 100)",
-                  fontWeight: "500",
-                  borderColor: "white",
-                }}
-                onClick={SignFirebase}
-              >
-                <Row className="m-0 ps-0 pe-0" style={{ alignItems: "center" }}>
-                  <Image
-                    src={logoGmail}
-                    style={{
-                      width: "calc(15px + 0.3vw)",
-                      margin: "0",
-                      padding: "0",
-                      height: "100%",
-                    }}
-                  ></Image>
-                  &nbsp;&nbsp;{signInStatus}
-                </Row>
-              </Button>
-            </>
-          ) : null}
+              alignItems: 'end',
+              marginRight: `${convertMultiplyVwToPx()}px`,
+              fontSize: 'calc(14px + 0.4vw)',
+            }} 
+            show={showDropdown}
+            onMouseEnter={() => setShowDropdown(true)}
+            onMouseLeave={() => setShowDropdown(false)}
+            >
+            </NavDropdown>
+          </Nav>
         </Navbar>
       )}
       <Routes>
