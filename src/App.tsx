@@ -5,6 +5,11 @@ import { ToastContainer } from "react-toastify";
 import { db, auth, provider } from "./Firebase/firebase_";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
+import { LiaClipboardListSolid } from 'react-icons/lia';
+import { BsChatDots } from 'react-icons/bs'; 
+import { AiOutlineCreditCard } from 'react-icons/ai'; 
+import { RiCoupon3Line } from 'react-icons/ri'; 
+
 
 import "./App.css";
 import "./pages/LoginHubLocal/login.css";
@@ -38,6 +43,14 @@ import { isMobile } from "react-device-detect";
 
 const BUTTON_TEXT_SIGN_IN = "Sign In With Google";
 const BUTTON_TEXT_SIGN_OUT = "Sign Out";
+
+function MenuItem({ icon, text, opacity }: { icon?: React.ReactNode; text: string; opacity?: true; }) {
+  return (
+    <NavDropdown.Item style={{ display: 'flex', alignItems: 'center', marginBottom: '7px', fontSize: '1.05rem', marginLeft: '9px', opacity: opacity ? 0.5 : undefined }}>
+      {icon && React.cloneElement(icon as React.ReactElement, { style: { fontSize: '14px', marginRight: '6px', marginTop:'2px' } })} {text}
+    </NavDropdown.Item>
+  );
+}
 
 function App() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -174,6 +187,8 @@ function App() {
       event.preventDefault();
       setSelectedLink(link);
     };
+
+  
   return (
     <>
       <div>
@@ -265,7 +280,14 @@ function App() {
             ) : null}
           </Navbar>
           <Nav>
-            <NavDropdown title={<span>Olá, Usuário <br></br><b>Minha Conta</b> </span>} 
+            <NavDropdown
+            title={
+              <span style={{ color: '#313131EE' }}>
+                Olá, Usuário <br></br>
+                <b>Minha Conta</b>
+              </span>
+            }
+            className="custom-nav-dropdown"
             style={{
               alignItems: 'end',
               marginRight: `${convertMultiplyVwToPx()}px`,
@@ -275,6 +297,18 @@ function App() {
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
             >
+              <NavDropdown.Item style={{ marginTop: '13px', marginBottom: '13px' }}>
+                Usuario
+              </NavDropdown.Item>
+              <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
+                <MenuItem icon={<LiaClipboardListSolid />} text="My Orders" />
+                <MenuItem icon={<BsChatDots />} text="Message Center" />
+                <MenuItem icon={<AiOutlineCreditCard />} text="Payment" />
+                <MenuItem icon={<RiCoupon3Line />} text="My Coupons" />
+                <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
+                <MenuItem text="Buyer Protection" opacity = {true} />
+                <MenuItem text="Help Center" opacity = {true}  />
+                <MenuItem text="Accessibility" opacity = {true}  />
             </NavDropdown>
           </Nav>
         </Navbar>

@@ -9,6 +9,11 @@
   src: local("BlommingElegant"), url("fonts/BloomingElegant/Blooming\ Elegant\ Sans.otf");
 }
 
+@font-face {
+  font-family: "Teste";
+  src: local("Teste"), url("fonts/Teste/Teste.otf");
+}
+
 html {
   height: auto !important;
 }
@@ -83,3 +88,55 @@ body {
   font-weight: bold;
 }
 
+
+.dropdown-item {
+  width: 16vw!important;
+}
+
+.dropdown-menu {
+  transform: translateX(calc(-6.8vw + 60px));
+  border-radius: 20px!important;
+  animation: fadeIn 0.3s, growIn 0.2s;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s;
+}
+
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -15px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  border-width: 8px; 
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes growIn {
+  from {
+    transform: translateX(calc(-6.8vw + 60px)) scale(0);
+  }
+  to {
+    transform: translateX(calc(-6.8vw + 60px)) scale(1);
+  }
+}
