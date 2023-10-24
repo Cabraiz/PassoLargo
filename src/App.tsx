@@ -44,10 +44,10 @@ import { isMobile } from "react-device-detect";
 const BUTTON_TEXT_SIGN_IN = "Sign In With Google";
 const BUTTON_TEXT_SIGN_OUT = "Sign Out";
 
-function MenuItem({ icon, text, opacity }: { icon?: React.ReactNode; text: string; opacity?: true; }) {
+function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; text: string; opacity?: true; sizeIcon?: string }) {
   return (
-    <NavDropdown.Item style={{ display: 'flex', alignItems: 'center', marginBottom: '7px', fontSize: '1.05rem', marginLeft: '9px', opacity: opacity ? 0.5 : undefined }}>
-      {icon && React.cloneElement(icon as React.ReactElement, { style: { fontSize: '14px', marginRight: '6px', marginTop:'2px' } })} {text}
+    <NavDropdown.Item style={{ display: 'flex', alignItems: 'center', marginBottom: '7px', fontSize: '1.65rem', marginLeft: '9px', opacity: opacity ? 0.5 : undefined }}>
+      {icon && React.cloneElement(icon as React.ReactElement, { style: { width: sizeIcon, marginRight: '6px', marginTop: '-0.5px' } })} {text}
     </NavDropdown.Item>
   );
 }
@@ -287,7 +287,6 @@ function App() {
                 <b>Minha Conta</b>
               </span>
             }
-            className="custom-nav-dropdown"
             style={{
               alignItems: 'end',
               marginRight: `${convertMultiplyVwToPx()}px`,
@@ -301,10 +300,10 @@ function App() {
                 Usuario
               </NavDropdown.Item>
               <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
-                <MenuItem icon={<LiaClipboardListSolid />} text="My Orders" />
-                <MenuItem icon={<BsChatDots />} text="Message Center" />
-                <MenuItem icon={<AiOutlineCreditCard />} text="Payment" />
-                <MenuItem icon={<RiCoupon3Line />} text="My Coupons" />
+                <MenuItem icon={<LiaClipboardListSolid />} text="My Orders" sizeIcon= '18px' />
+                <MenuItem icon={<BsChatDots />} text="Message Center" sizeIcon= '16px' />
+                <MenuItem icon={<AiOutlineCreditCard />} text="Payment" sizeIcon= '16px'/>
+                <MenuItem icon={<RiCoupon3Line />} text="My Coupons" sizeIcon= '16px'/>
                 <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
                 <MenuItem text="Buyer Protection" opacity = {true} />
                 <MenuItem text="Help Center" opacity = {true}  />

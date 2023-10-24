@@ -10,8 +10,8 @@
 }
 
 @font-face {
-  font-family: "Teste";
-  src: local("Teste"), url("fonts/Teste/Teste.otf");
+  font-family: "Tanseek";
+  src: local("Tanseek"), url("fonts/TanseekModernProArabicBook/TanseekModernProArabicBook.ttf");
 }
 
 html {
@@ -97,10 +97,8 @@ body {
   transform: translateX(calc(-6.8vw + 60px));
   border-radius: 20px!important;
   animation: fadeIn 0.3s, growIn 0.2s;
-}
-
-.fade-out {
-  animation: fadeOut 0.3s;
+  font-family: "Tanseek", sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .dropdown-menu::before {
@@ -113,6 +111,11 @@ body {
   border-style: solid;
   border-color: transparent transparent #fff transparent;
 }
+
+.fade-out {
+  animation: fadeOut 2s;
+}
+
 
 @keyframes fadeOut {
   from {
