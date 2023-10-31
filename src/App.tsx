@@ -1,23 +1,17 @@
 
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { db, auth, provider } from "./Firebase/firebase_";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
-import { LiaClipboardListSolid } from 'react-icons/lia';
-import { BsChatDots } from 'react-icons/bs'; 
-import { AiOutlineCreditCard } from 'react-icons/ai'; 
-import { RiCoupon3Line } from 'react-icons/ri';
-import { convertMultiplyVwToPx } from './pages/PrincipalPage/Generico/utils';
-
 
 import "./App.css";
 import "./pages/LoginHubLocal/login.css";
 import "./pages/Mateus/Mateus.css";
 import "./pages/Surprise/Surprise.css";
 
-import { NavDropdown, Navbar, Image, Button, Nav } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 
 import logo from "./assets/icones/logo.svg";
 import logoGmail from "./assets/icones/7.svg";
@@ -36,9 +30,8 @@ import Doris from "./pages/Doris.mobi/principal";
 import { PrivateOutlet } from "./redux/shared/utils/PrivateOutlet";
 
 import Mateus from "./pages/Mateus/Mateus";
-import LiveAnimation from "./pages/PrincipalPage/Animation/live_animation";
 import TitleWebsite from "./pages/PrincipalPage/TitleWebsite/title_website";
-import NavLogic from "./pages/PrincipalPage/Generico/NavLogic/NavLogic";
+import { NavLogic, buttonsCornerRight } from "./pages/PrincipalPage/Generico/NavLogic/NavLogic";
 //import Firebase from "./pages/Surprise/Surprise";
 
 import { isMobile } from "react-device-detect";
@@ -61,12 +54,8 @@ interface MenuState {
 }
 
 function App() {
-  const [showDropdown, setShowDropdown] = useState(false);
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [signInStatus, setsignInStatus] = useState(["", false]);
-  const [menuState, setMenuState] = useState<MenuState>({ selectedLink: 'Home' });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -152,48 +141,6 @@ function App() {
     }
   };
 
-  const handleLinkClick = (link: string) => {
-    setMenuState((prevState) => ({
-      selectedLink: prevState.selectedLink === link ? prevState.selectedLink : link,
-    }));
-  
-    const pathMap: { [key: string]: string } = {};
-  
-    // Map each link to its path
-    links.forEach((item) => {
-      pathMap[item] = `#${item.toLowerCase()}`;
-    });
-  
-    navigate(pathMap[link] || ""); // Update the path
-  };
-
-  const buttonsCornerRight = links.map((link, index) => {
-    const selected = link === menuState.selectedLink;
-  
-    const buttonStyles = {
-      width: selected ? "23px" : "",
-      height: selected ? "22px" : "12px",
-      marginRight: selected ? "-2px" : "",
-      marginBottom: selected ? "2.5vh" : "3vh",
-      transform: selected ? "" : "rotate(45deg) scaleX(0.7)",
-      transformOrigin: selected ? "" : "center",
-      backgroundColor: selected ? "#00000000" : "#9b59b6",
-      borderColor: selected ? "#9b59b6" : "#00000000",
-      borderWidth: selected ? "3px" : "",
-      borderRadius: "1px",
-    };
-  
-    return (
-      <Button
-        key={link}
-        variant="primary"
-        size="sm"
-        style={buttonStyles}
-        onClick={() => handleLinkClick(link)}
-      ></Button>
-    );
-  });
-
   const { pathname } = useLocation();
 
   const isNavOn =
@@ -237,7 +184,7 @@ function App() {
             marginRight: "3vw",
           }}
         >
-          {buttonsCornerRight}
+          { buttonsCornerRight }
         </div>
       ) : null}
       <ToastContainer />

@@ -20,6 +20,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { isMobile } from "react-device-detect";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
+interface MenuState {
+  selectedLink: string;
+}
+
+interface ButtonsCornerRightProps {
+  menuState: MenuState;
+  handleLinkClick: (link: string) => void;
+  links: string[];
+}
+
+
 function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; text: string; opacity?: true; sizeIcon?: string }) {
   return (
     <NavDropdown.Item style={{ display: 'flex', alignItems: 'center', marginBottom: '7px', fontSize: '1.65rem', marginLeft: '9px', opacity: opacity ? 0.5 : undefined }}>
@@ -28,13 +40,43 @@ function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; t
   );
 }
 
+const menuState: MenuState = { selectedLink: 'Home' };
+const handleLinkClick = (link: string) => { /* implementação da função */ };
 const links: string[] = ['Home', 'Portfolio', 'Road Map', 'Pricing', 'Live', 'Contact'];
+const buttonsCornerRight = renderedButtons( { menuState, handleLinkClick, links });
 
-interface MenuState {
-  selectedLink: string;
+function renderedButtons({ menuState, handleLinkClick, links }: ButtonsCornerRightProps): JSX.Element {
+  const buttons = links.map((link, index) => {
+    const selected = link === menuState.selectedLink;
+
+    const buttonStyles = {
+      width: selected ? "23px" : "",
+      height: selected ? "22px" : "12px",
+      marginRight: selected ? "-2px" : "",
+      marginBottom: selected ? "2.5vh" : "3vh",
+      transform: selected ? "" : "rotate(45deg) scaleX(0.7)",
+      transformOrigin: selected ? "" : "center",
+      backgroundColor: selected ? "#00000000" : "#9b59b6",
+      borderColor: selected ? "#9b59b6" : "#00000000",
+      borderWidth: selected ? "3px" : "",
+      borderRadius: "1px",
+    };
+
+    return (
+      <Button
+        key={link}
+        variant="primary"
+        size="sm"
+        style={buttonStyles}
+        onClick={() => handleLinkClick(link)}
+      ></Button>
+    );
+  });
+
+  return <>{buttons}</>;
 }
 
-function NavLogic() {
+function NavLogic(): JSX.Element {
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuState, setMenuState] = useState<MenuState>({ selectedLink: 'Home' });
 
@@ -55,32 +97,7 @@ function NavLogic() {
     navigate(pathMap[link] || ""); // Update the path
   };
 
-  const buttonsCornerRight = links.map((link, index) => {
-    const selected = link === menuState.selectedLink;
-  
-    const buttonStyles = {
-      width: selected ? "23px" : "",
-      height: selected ? "22px" : "12px",
-      marginRight: selected ? "-2px" : "",
-      marginBottom: selected ? "2.5vh" : "3vh",
-      transform: selected ? "" : "rotate(45deg) scaleX(0.7)",
-      transformOrigin: selected ? "" : "center",
-      backgroundColor: selected ? "#00000000" : "#9b59b6",
-      borderColor: selected ? "#9b59b6" : "#00000000",
-      borderWidth: selected ? "3px" : "",
-      borderRadius: "1px",
-    };
-  
-    return (
-      <Button
-        key={link}
-        variant="primary"
-        size="sm"
-        style={buttonStyles}
-        onClick={() => handleLinkClick(link)}
-      ></Button>
-    );
-  });
+  renderedButtons({ menuState, handleLinkClick, links })
 
   const { pathname } = useLocation();
 
@@ -193,4 +210,4 @@ function NavLogic() {
   );
 }
 
-export default NavLogic;
+export { NavLogic, buttonsCornerRight };

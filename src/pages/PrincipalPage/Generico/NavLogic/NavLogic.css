@@ -1,50 +1,21 @@
-@font-face {
-    font-family: "Brutal";
-    src: local("Brutal"), url("../../../../fonts/Brutal/Brutal-Type-Medium.ttf");
-  }
-  
-  
-  @font-face {
-    font-family: "BlommingElegant";
-    src: local("BlommingElegant"), url("../../../../fonts/BloomingElegant/Blooming\ Elegant\ Sans.otf");
-  }
-  
-  @font-face {
-    font-family: "Tanseek";
-    src: local("Tanseek"), url("../../../../fonts/TanseekModernProArabicBook/TanseekModernProArabicBook.ttf");
-  }
-  
-  html {
-    height: auto !important;
-  }
-  body {
+body {
     background: linear-gradient(90deg, #9b59b6 0%, #9b59b6 68%, #f1c40f 68%, #f1c40f 100%) !important;
     background-repeat: no-repeat;
   }
+  
   .font-face-gm {
     font-family: "Brutal", sans-serif;
     letter-spacing: 5px;
     font-size: 14px;
     font-weight: 500;
   }
+  
   .row {
     justify-content: center;
     padding-left: 10vw;
     padding-right: 10vw;
   }
-  .border-gradient-green {
-    border: solid;
-    border-image: linear-gradient(
-        to left,
-        #ffffff00 -20%,
-        #ffffff33 60%,
-        #ffffffbd 80%,
-        #ffffffbd 86%,
-        #ffffff33 92%,
-        #ffffff00 100%
-      )
-      100% 0 100% 0/0.3vh 0 0.3vh 0 stretch;
-  }
+  
   #nav-dropdown {
     font-family: "BlommingElegant", sans-serif;
     font-weight: 300;
@@ -57,6 +28,7 @@
     margin: 0 1vw 0 1vw;
     padding: 0 !important;
   }
+  
   .nav-link-custom.active,
   .nav-link-custom:hover {
     color: rgba(255, 255, 255, 0.9) !important;
@@ -88,14 +60,13 @@
     font-weight: bold;
   }
   
-  
   .dropdown-item {
-    width: 16vw!important;
+    width: 16vw !important;
   }
   
   .dropdown-menu {
     transform: translateX(calc(-6.8vw + 60px));
-    border-radius: 20px!important;
+    border-radius: 20px !important;
     animation: fadeIn 0.3s, growIn 0.2s;
     font-family: "Tanseek", sans-serif;
     letter-spacing: 0.5px;
@@ -104,10 +75,10 @@
   .dropdown-menu::before {
     content: '';
     position: absolute;
-    top: -15px; 
-    left: 50%; 
+    top: -15px;
+    left: 50%;
     transform: translateX(-50%);
-    border-width: 8px; 
+    border-width: 8px;
     border-style: solid;
     border-color: transparent transparent #fff transparent;
   }
@@ -119,16 +90,6 @@
   
   .dropdown-toggle:hover::after {
     transform: rotate(180deg);
-  }
-  
-  
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
   }
   
   @keyframes fadeIn {
@@ -148,3 +109,4 @@
       transform: translateX(calc(-6.8vw + 60px)) scale(1);
     }
   }
+  
