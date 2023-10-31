@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { db, auth, provider } from "./Firebase/firebase_";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -8,7 +8,8 @@ import { onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from
 import { LiaClipboardListSolid } from 'react-icons/lia';
 import { BsChatDots } from 'react-icons/bs'; 
 import { AiOutlineCreditCard } from 'react-icons/ai'; 
-import { RiCoupon3Line } from 'react-icons/ri'; 
+import { RiCoupon3Line } from 'react-icons/ri';
+import { convertMultiplyVwToPx } from './pages/PrincipalPage/Generico/utils';
 
 
 import "./App.css";
@@ -37,6 +38,7 @@ import { PrivateOutlet } from "./redux/shared/utils/PrivateOutlet";
 import Mateus from "./pages/Mateus/Mateus";
 import LiveAnimation from "./pages/PrincipalPage/Animation/live_animation";
 import TitleWebsite from "./pages/PrincipalPage/TitleWebsite/title_website";
+import NavLogic from "./pages/PrincipalPage/Generico/NavLogic/NavLogic";
 //import Firebase from "./pages/Surprise/Surprise";
 
 import { isMobile } from "react-device-detect";
@@ -52,12 +54,19 @@ function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; t
   );
 }
 
+const links: string[] = ['Home', 'Portfolio', 'Road Map', 'Pricing', 'Live', 'Contact'];
+
+interface MenuState {
+  selectedLink: string;
+}
+
 function App() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [signInStatus, setsignInStatus] = useState(["", false]);
-  const [selectedLink, setSelectedLink] = useState("Home");
-  const links = ["Home", "Portfolio", "Road Map", "Pricing","Live", "Contact"];
+  const [menuState, setMenuState] = useState<MenuState>({ selectedLink: 'Home' });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -106,10 +115,6 @@ function App() {
     return { innerWidth, innerHeight };
   }
 
-  const convertMultiplyVwToPx = () => {
-    return (windowSize.innerWidth / 100) * 14;
-  };
-
   const SignFirebase = async () => {
     if (!signInStatus[1]) {
       signOut(auth)
@@ -147,30 +152,47 @@ function App() {
     }
   };
 
-  const createButton = (buttonNumber: number, selected: boolean) => (
-    <Button
-      key={buttonNumber}
-      variant="primary"
-      size="sm"
-      style={{
-        width: selected ? "23px" : "",
-        height: selected ? "22px" : "12px",
-        marginRight: selected ? "-2px" : "",
-        marginBottom: selected ? "2.5vh" : "3vh",
-        transform: selected ? "" : "rotate(45deg) scaleX(0.7)",
-        transformOrigin: selected ? "" :  "center",
-        backgroundColor: selected ? "#00000000" : "#9b59b6",
-        borderColor: selected ? "#9b59b6" : "#00000000",
-        borderWidth: selected ? "3px" : "",
-        borderRadius: "1px",
-      }}
-      // onClick={handleButtonClick(buttonNumber)}
-    ></Button>
-  );
+  const handleLinkClick = (link: string) => {
+    setMenuState((prevState) => ({
+      selectedLink: prevState.selectedLink === link ? prevState.selectedLink : link,
+    }));
+  
+    const pathMap: { [key: string]: string } = {};
+  
+    // Map each link to its path
+    links.forEach((item) => {
+      pathMap[item] = `#${item.toLowerCase()}`;
+    });
+  
+    navigate(pathMap[link] || ""); // Update the path
+  };
 
-  const buttons = Array.from({ length: links.length }).map((_, index) =>
-    createButton(index + 1, links[index] === selectedLink),
-  );
+  const buttonsCornerRight = links.map((link, index) => {
+    const selected = link === menuState.selectedLink;
+  
+    const buttonStyles = {
+      width: selected ? "23px" : "",
+      height: selected ? "22px" : "12px",
+      marginRight: selected ? "-2px" : "",
+      marginBottom: selected ? "2.5vh" : "3vh",
+      transform: selected ? "" : "rotate(45deg) scaleX(0.7)",
+      transformOrigin: selected ? "" : "center",
+      backgroundColor: selected ? "#00000000" : "#9b59b6",
+      borderColor: selected ? "#9b59b6" : "#00000000",
+      borderWidth: selected ? "3px" : "",
+      borderRadius: "1px",
+    };
+  
+    return (
+      <Button
+        key={link}
+        variant="primary"
+        size="sm"
+        style={buttonStyles}
+        onClick={() => handleLinkClick(link)}
+      ></Button>
+    );
+  });
 
   const { pathname } = useLocation();
 
@@ -181,137 +203,12 @@ function App() {
     pathname === "/resume" ||
     pathname === "/doris";
 
-  const handleLinkClick =
-    (link: string) =>
-    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-      event.preventDefault();
-      setSelectedLink(link);
-    };
-
-  
   return (
     <>
       <div>
         <TitleWebsite title1="Bem Vindo! 🤝" title2="Cabraiz" />
       </div>
-      {isNavOn ? null : (
-        <Navbar
-          className="border-gradient-green"
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            height: "11vh",
-            fontWeight: "600",
-            paddingTop: "0px",
-            paddingBottom: "0px",
-            marginInline: "0px",
-            marginTop: "0.1vh",
-            marginBottom: "0",
-          }}
-        >
-          <Navbar>
-            <Image
-              src={logo}
-              style={{
-                marginLeft: `${convertMultiplyVwToPx()}px`,
-                marginRight: "4vw",
-                marginTop: "0.5vh",
-                borderRadius: "20%",
-                width: "8.5vh",
-                height: "8.5vh",
-              }}
-            />
-            {!isMobile ? (
-              // Render Nav element and Nav.Link elements for non-mobile devices
-              <>
-                <Nav id="nav-dropdown" style={{ display: 'inline-flex', alignItems: 'start', marginRight: '0', paddingRight: '0' }}>
-                  {links.map((link) => (
-                    <Nav.Link
-                      key={link}
-                      className={`text-nowrap nav-link-custom ${
-                        selectedLink === link ? "active" : ""
-                      }`}
-                      href={`#${link.toLowerCase()}`}
-                      onClick={handleLinkClick(link)}
-                    > 
-                    {link === "Live" && (
-                      <div className="live-container">
-                        <span className="live-img">
-                          <LiveAnimation />
-                        </span>
-                        {link}
-                      </div>
-                    )}
-                    {link !== "Live" && <span>{link}</span>}
-                  </Nav.Link>
-                  ))}
-                
-                </Nav>
-                
-                
-                {/*<Button
-                  style={{
-                    marginRight: "4vw",
-                    width: "auto",
-                    height: "6vh",
-                    fontSize: "1rem",
-                    backgroundColor: "white",
-                    color: "rgba(100, 100, 100)",
-                    fontWeight: "500",
-                    borderColor: "white",
-                  }}
-                  onClick={SignFirebase}
-                >
-                  <Row className="m-0 ps-0 pe-0" style={{ alignItems: "center" }}>
-                    <Image
-                      src={logoGmail}
-                      style={{
-                        width: "calc(15px + 0.3vw)",
-                        margin: "0",
-                        padding: "0",
-                        height: "100%",
-                      }}
-                    ></Image>
-                    &nbsp;&nbsp;{signInStatus}
-                  </Row>
-                </Button>
-                */}
-              </>
-            ) : null}
-          </Navbar>
-          <Nav>
-            <NavDropdown
-            title={
-              <span style={{ color: '#313131EE' }}>
-                Olá, Usuário <br></br>
-                <b>Minha Conta</b>
-              </span>
-            }
-            style={{
-              alignItems: 'end',
-              marginRight: `${convertMultiplyVwToPx()}px`,
-              fontSize: 'calc(14px + 0.4vw)',
-            }} 
-            show={showDropdown}
-            onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
-            >
-              <NavDropdown.Item style={{ marginTop: '13px', marginBottom: '13px' }}>
-                Usuario
-              </NavDropdown.Item>
-              <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
-                <MenuItem icon={<LiaClipboardListSolid />} text="My Orders" sizeIcon= '18px' />
-                <MenuItem icon={<BsChatDots />} text="Message Center" sizeIcon= '16px' />
-                <MenuItem icon={<AiOutlineCreditCard />} text="Payment" sizeIcon= '16px'/>
-                <MenuItem icon={<RiCoupon3Line />} text="My Coupons" sizeIcon= '16px'/>
-                <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
-                <MenuItem text="Buyer Protection" opacity = {true} />
-                <MenuItem text="Help Center" opacity = {true}  />
-                <MenuItem text="Accessibility" opacity = {true}  />
-            </NavDropdown>
-          </Nav>
-        </Navbar>
-      )}
+      <NavLogic/>
       <Routes>
         <Route path="/" element={<Mateus />} />
 
@@ -340,12 +237,41 @@ function App() {
             marginRight: "3vw",
           }}
         >
-          {buttons}
+          {buttonsCornerRight}
         </div>
       ) : null}
       <ToastContainer />
+        {/*<Button
+        style={{
+          marginRight: "4vw",
+          width: "auto",
+          height: "6vh",
+          fontSize: "1rem",
+          backgroundColor: "white",
+          color: "rgba(100, 100, 100)",
+          fontWeight: "500",
+          borderColor: "white",
+        }}
+        onClick={SignFirebase}
+      >
+        <Row className="m-0 ps-0 pe-0" style={{ alignItems: "center" }}>
+          <Image
+            src={logoGmail}
+            style={{
+              width: "calc(15px + 0.3vw)",
+              margin: "0",
+              padding: "0",
+              height: "100%",
+            }}
+          ></Image>
+          &nbsp;&nbsp;{signInStatus}
+        </Row>
+      </Button>
+      */}
     </>
   );
 }
+
+
 
 export default App;

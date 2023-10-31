@@ -1,0 +1,150 @@
+@font-face {
+    font-family: "Brutal";
+    src: local("Brutal"), url("../../../../fonts/Brutal/Brutal-Type-Medium.ttf");
+  }
+  
+  
+  @font-face {
+    font-family: "BlommingElegant";
+    src: local("BlommingElegant"), url("../../../../fonts/BloomingElegant/Blooming\ Elegant\ Sans.otf");
+  }
+  
+  @font-face {
+    font-family: "Tanseek";
+    src: local("Tanseek"), url("../../../../fonts/TanseekModernProArabicBook/TanseekModernProArabicBook.ttf");
+  }
+  
+  html {
+    height: auto !important;
+  }
+  body {
+    background: linear-gradient(90deg, #9b59b6 0%, #9b59b6 68%, #f1c40f 68%, #f1c40f 100%) !important;
+    background-repeat: no-repeat;
+  }
+  .font-face-gm {
+    font-family: "Brutal", sans-serif;
+    letter-spacing: 5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .row {
+    justify-content: center;
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+  .border-gradient-green {
+    border: solid;
+    border-image: linear-gradient(
+        to left,
+        #ffffff00 -20%,
+        #ffffff33 60%,
+        #ffffffbd 80%,
+        #ffffffbd 86%,
+        #ffffff33 92%,
+        #ffffff00 100%
+      )
+      100% 0 100% 0/0.3vh 0 0.3vh 0 stretch;
+  }
+  #nav-dropdown {
+    font-family: "BlommingElegant", sans-serif;
+    font-weight: 300;
+    font-size: 2vw;
+    padding-right: 350px;
+  }
+  
+  .nav-link-custom {
+    color: rgba(255, 255, 255, 0.596) !important;
+    margin: 0 1vw 0 1vw;
+    padding: 0 !important;
+  }
+  .nav-link-custom.active,
+  .nav-link-custom:hover {
+    color: rgba(255, 255, 255, 0.9) !important;
+    border: none;
+  }
+  
+  .nav-link-custom.active::after {
+    content: "";
+    display: block;
+    height: 5px;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.85);
+    width: 100%;
+  }
+  
+  .live-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .live-img {
+    position: absolute;
+    top: -0.7rem;
+    left: -1.3rem;
+    z-index: -1;
+  }
+  
+  .texto-negrito {
+    font-weight: bold;
+  }
+  
+  
+  .dropdown-item {
+    width: 16vw!important;
+  }
+  
+  .dropdown-menu {
+    transform: translateX(calc(-6.8vw + 60px));
+    border-radius: 20px!important;
+    animation: fadeIn 0.3s, growIn 0.2s;
+    font-family: "Tanseek", sans-serif;
+    letter-spacing: 0.5px;
+  }
+  
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -15px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    border-width: 8px; 
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+  }
+  
+  .dropdown-toggle::after {
+    margin-bottom: -2px;
+    transition: transform 0.2s;
+  }
+  
+  .dropdown-toggle:hover::after {
+    transform: rotate(180deg);
+  }
+  
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes growIn {
+    from {
+      transform: translateX(calc(-6.8vw + 60px)) scale(0);
+    }
+    to {
+      transform: translateX(calc(-6.8vw + 60px)) scale(1);
+    }
+  }
