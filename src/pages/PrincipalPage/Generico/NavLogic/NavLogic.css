@@ -1,21 +1,8 @@
-body {
-    background: linear-gradient(90deg, #9b59b6 0%, #9b59b6 68%, #f1c40f 68%, #f1c40f 100%) !important;
-    background-repeat: no-repeat;
+  @font-face {
+    font-family: "BlommingElegant";
+    src: local("BlommingElegant"), url("../../../../fonts/BloomingElegant/Blooming\ Elegant\ Sans.otf");
   }
-  
-  .font-face-gm {
-    font-family: "Brutal", sans-serif;
-    letter-spacing: 5px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  .row {
-    justify-content: center;
-    padding-left: 10vw;
-    padding-right: 10vw;
-  }
-  
+    
   #nav-dropdown {
     font-family: "BlommingElegant", sans-serif;
     font-weight: 300;
@@ -43,6 +30,21 @@ body {
     background-color: rgba(255, 255, 255, 0.85);
     width: 100%;
   }
+
+  .nav-link-custom.desactive {
+    color: rgba(255, 255, 255, 0.596) !important;
+    margin: 0 1vw 0 1vw;
+    padding: 0 !important;
+  }
+
+  .nav-link-custom.desactive::after{
+    content: "";
+    display: block;
+    height: 0px;
+    margin-top: 0px;
+    background-color: none;
+    width: 0
+  }
   
   .live-container {
     position: relative;
@@ -54,10 +56,6 @@ body {
     top: -0.7rem;
     left: -1.3rem;
     z-index: -1;
-  }
-  
-  .texto-negrito {
-    font-weight: bold;
   }
   
   .dropdown-item {

@@ -1,11 +1,13 @@
 
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { LiaClipboardListSolid } from 'react-icons/lia';
 import { BsChatDots } from 'react-icons/bs'; 
 import { AiOutlineCreditCard } from 'react-icons/ai'; 
 import { RiCoupon3Line } from 'react-icons/ri';
 import { convertMultiplyVwToPx } from '../utils';
 import LiveAnimation from "../../Animation/live_animation";
+import { MenuState, handleLinkClick  } from './LocalMenuState';
+import { useMenuState } from './NavContext';
 
 
 import "./NavLogic.css";
@@ -21,16 +23,18 @@ import { isMobile } from "react-device-detect";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
-interface MenuState {
-  selectedLink: string;
-}
-
 interface ButtonsCornerRightProps {
   menuState: MenuState;
   handleLinkClick: (link: string) => void;
   links: string[];
+  updateMenuState: Dispatch<SetStateAction<MenuState>>;
 }
 
+interface NavLogicProps {
+  isMobile: boolean;
+  links: string[];
+  logo: string; // Certifique-se de importar a imagem do logo
+}
 
 function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; text: string; opacity?: true; sizeIcon?: string }) {
   return (
@@ -40,12 +44,28 @@ function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; t
   );
 }
 
-const menuState: MenuState = { selectedLink: 'Home' };
-const handleLinkClick = (link: string) => { /* implementação da função */ };
 const links: string[] = ['Home', 'Portfolio', 'Road Map', 'Pricing', 'Live', 'Contact'];
-const buttonsCornerRight = renderedButtons( { menuState, handleLinkClick, links });
 
-function renderedButtons({ menuState, handleLinkClick, links }: ButtonsCornerRightProps): JSX.Element {
+function ButtonsCornerRight(): JSX.Element {
+  const { localMenuState, setLocalMenuState } = useMenuState();
+  const navigate = useNavigate();
+
+  const handleClick = (link: string) => {
+    handleLinkClick(link, setLocalMenuState, navigate, links);
+  };
+
+  return renderedButtons({ menuState: localMenuState, handleLinkClick: handleClick, links, updateMenuState: setLocalMenuState });
+}
+
+function renderedButtons({ menuState, handleLinkClick, links, updateMenuState }: ButtonsCornerRightProps): JSX.Element {
+  const handleButtonClick = (link: string) => {
+    updateMenuState((prevState) => ({
+      ...prevState,
+      selectedLink: link, // Atualiza o estado apenas com o novo link selecionado
+    }));
+    handleLinkClick(link);
+  };
+
   const buttons = links.map((link, index) => {
     const selected = link === menuState.selectedLink;
 
@@ -68,66 +88,67 @@ function renderedButtons({ menuState, handleLinkClick, links }: ButtonsCornerRig
         variant="primary"
         size="sm"
         style={buttonStyles}
-        onClick={() => handleLinkClick(link)}
+        onClick={() => handleButtonClick(link)}
       ></Button>
     );
   });
-
   return <>{buttons}</>;
 }
 
 function NavLogic(): JSX.Element {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [menuState, setMenuState] = useState<MenuState>({ selectedLink: 'Home' });
+  const { localMenuState, setLocalMenuState } = useMenuState();
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isNavOn = ['/hublocal', '/loginhublocal', '/registerhublocal', '/resume', '/doris'].includes(pathname);
 
-  const handleLinkClick = (link: string) => {
-    setMenuState((prevState) => ({
-      selectedLink: prevState.selectedLink === link ? prevState.selectedLink : link,
-    }));
-  
-    const pathMap: { [key: string]: string } = {};
-  
-    // Map each link to its path
-    links.forEach((item) => {
-      pathMap[item] = `#${item.toLowerCase()}`;
-    });
-  
-    navigate(pathMap[link] || ""); // Update the path
+  const handleClick = (link: string) => {
+    handleLinkClick(link, setLocalMenuState, navigate, links);
   };
 
-  renderedButtons({ menuState, handleLinkClick, links })
-
-  const { pathname } = useLocation();
-
-  const isNavOn =
-    pathname === "/hublocal" ||
-    pathname === "/loginhublocal" ||
-    pathname === "/registerhublocal" ||
-    pathname === "/resume" ||
-    pathname === "/doris";
+  const renderNavLinks = (): JSX.Element[] | null => {
+    if (!isMobile) {
+      return links.map((link) => (
+        <Nav.Link
+          key={link}
+          className={`text-nowrap nav-link-custom ${localMenuState.selectedLink === link ? "active" : "desactive"}`}
+          href={`#${link.toLowerCase()}`}
+          onClick={() => handleClick(link)}
+        >
+          {link === "Live" ? (
+            <div className="live-container">
+              <span className="live-img">
+                <LiveAnimation />
+              </span>
+              {link}
+            </div>
+          ) : (
+            <span>{link}</span>
+          )}
+        </Nav.Link>
+      ));
+    }
+    return null;
+  };
 
   return (
     <>
-      {isNavOn ? null : (
-        <Navbar
-          className="border-gradient-green"
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            height: "11vh",
-            fontWeight: "600",
-            paddingTop: "0px",
-            paddingBottom: "0px",
-            marginInline: "0px",
-            marginTop: "0.1vh",
-            marginBottom: "0",
-          }}
-        >
-          <Navbar>
-            <Image
-              src={logo}
+      {!isNavOn && (
+        <Navbar className="border-gradient-green m-0 p-0 justify-content-between">
+          <Navbar 
+            style={{
+              justifyContent: "space-between",
+              alignItems: "center",
+              height: "10.5vh",
+              fontWeight: "600",
+              paddingTop: "0px",
+              paddingBottom: "0px",
+              marginInline: "0px",
+              marginTop: "0.1vh",
+              marginBottom: "0px",
+            }}>
+            <Image src={logo} 
               style={{
                 marginLeft: `${convertMultiplyVwToPx()}px`,
                 marginRight: "4vw",
@@ -135,55 +156,30 @@ function NavLogic(): JSX.Element {
                 borderRadius: "20%",
                 width: "8.5vh",
                 height: "8.5vh",
-              }}
-            />
-            {!isMobile ? (
-              // Render Nav element and Nav.Link elements for non-mobile devices
-              <>
-                <Nav id="nav-dropdown" style={{ display: 'inline-flex', alignItems: 'start', marginRight: '0', paddingRight: '0' }}>
-                  {links.map((link) => (
-                    <Nav.Link
-                      key={link}
-                      className={`text-nowrap nav-link-custom ${
-                        menuState.selectedLink === link ? "active" : ""
-                      }`}
-                      href={`#${link.toLowerCase()}`}
-                      onClick={() => handleLinkClick(link)}
-                    > 
-                    {link === "Live" && (
-                      <div className="live-container">
-                        <span className="live-img">
-                          <LiveAnimation />
-                        </span>
-                        {link}
-                      </div>
-                    )}
-                    {link !== "Live" && <span>{link}</span>}
-                  </Nav.Link>
-                  ))}
-                
-                </Nav>
-              </>
-            ) : null}
+              }} />
+            {!isMobile && (
+              <Nav id="nav-dropdown" style={{ display: 'inline-flex', alignItems: 'start', marginRight: '0', paddingRight: '0' }}>
+                {renderNavLinks()}
+              </Nav>
+            )}
           </Navbar>
           <Nav>
             <NavDropdown
-            title={
-              <span style={{ color: '#313131EE' }}>
-                Olá, Usuário <br></br>
-                <b>Minha Conta</b>
-              </span>
-            }
-            style={{
-              alignItems: 'end',
-              marginRight: `${convertMultiplyVwToPx()}px`,
-              fontSize: 'calc(14px + 0.4vw)',
-            }}
-            show={showDropdown}
-            onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
+              title={
+                <span style={{ color: '#313131EE', fontWeight: '600' }}>
+                  Olá, Usuário <br /><b>Minha Conta</b>
+                </span>
+              }
+              style={{
+                alignItems: 'end',
+                marginRight: `${convertMultiplyVwToPx()}px`,
+                fontSize: 'calc(14px + 0.4vw)',
+              }}
+              show={showDropdown}
+              onMouseEnter={() => setShowDropdown(true)}
+              onMouseLeave={() => setShowDropdown(false)}
             >
-              <NavDropdown.Item style={{ marginTop: '13px', marginBottom: '13px' }}>
+            <NavDropdown.Item style={{ marginTop: '13px', marginBottom: '13px' }}>
                 <div className="d-grid gap-2">
                   <Button variant="dark" size="lg" style={{ fontSize: "2rem" }}>
                     Sign In
@@ -210,4 +206,4 @@ function NavLogic(): JSX.Element {
   );
 }
 
-export { NavLogic, buttonsCornerRight };
+export { NavLogic, ButtonsCornerRight };

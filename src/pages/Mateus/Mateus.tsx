@@ -89,7 +89,7 @@ function Mateus() {
         </div>
         <Col className="justify-content-end">
           <Row
-            className="col-sm-12 col-md-8 p-0 m-0 mt-4 pb-2"
+            className="col-sm-12 col-md-8 p-0 m-0 mt-4 pb-2 font-size-medium"
             style={{ minWidth: "400px" }}
           >
             <Col className="col-sm-6 col-md-5 m-0 text-nowrap ps-0">
