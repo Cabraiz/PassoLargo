@@ -1,3 +1,7 @@
+  :root {
+    --transform-value: calc(-5.8vw + 50px);
+  }
+  
   @font-face {
     font-family: "BlommingElegant";
     src: local("BlommingElegant"), url("../../../../fonts/BloomingElegant/BloomingElegantSans.otf");
@@ -12,12 +16,19 @@
     font-family: "DroidSans", sans-serif!important;
     font-size: 1.4rem!important;
     letter-spacing: 0.5px;
+    background-color: #1b1b1b !important;
+
+    &:hover {
+      background-color: #1b1b1b !important;
+    }
   }
 
   .fontRegister{
     font-size: 1.4rem!important;
     opacity: 70%;
     letter-spacing: 0.5px;
+
+    
   }
 
   #nav-dropdown {
@@ -84,7 +95,7 @@
   }
   
   .dropdown-menu {
-    transform: translateX(calc(-6.8vw + 60px));
+    transform: translateX(var(--transform-value));
     border-radius: 20px !important;
     animation: fadeIn 0.3s, growIn 0.2s;
     font-family: "Tanseek", sans-serif;
@@ -122,10 +133,10 @@
   
   @keyframes growIn {
     from {
-      transform: translateX(calc(-6.8vw + 60px)) scale(0);
+      transform: translateX(var(--transform-value)) scale(0);
     }
     to {
-      transform: translateX(calc(-6.8vw + 60px)) scale(1);
+      transform: translateX(var(--transform-value)) scale(1);
     }
   }
   

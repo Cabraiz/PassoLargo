@@ -188,8 +188,8 @@ function NavLogic(): JSX.Element {
               onMouseLeave={() => setShowDropdown(false)}
             >
             <NavDropdown.Item style={{ marginTop: '13px' }}>
-                <div className="d-grid gap-2">
-                  <Button className="fontSignIn" variant="dark" size="lg" style={{ borderRadius: "25px" }}>
+                <div className="d-grid gap-2 ms-2 me-1">
+                  <Button className="fontSignIn" variant="dark" size="lg" style={{ borderRadius: "25px" }} >
                     Sign In
                   </Button>
                   <Button className="fontRegister" variant="secondary" size="lg" style={{ background: 'transparent', border: 'none', color: 'inherit', marginTop: '-15px' }}>
