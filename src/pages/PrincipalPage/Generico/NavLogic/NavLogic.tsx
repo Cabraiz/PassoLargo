@@ -38,8 +38,8 @@ interface NavLogicProps {
 
 function MenuItem({ icon, text, opacity, sizeIcon }: { icon?: React.ReactNode; text: string; opacity?: true; sizeIcon?: string }) {
   return (
-    <NavDropdown.Item style={{ display: 'flex', alignItems: 'center', marginBottom: '7px', fontSize: '1.65rem', marginLeft: '9px', opacity: opacity ? 0.5 : undefined }}>
-      {icon && React.cloneElement(icon as React.ReactElement, { style: { width: sizeIcon, marginRight: '6px', marginTop: '-0.5px' } })} {text}
+    <NavDropdown.Item style={{ display: 'flex', alignItems: 'center', marginBottom: '-5px', fontSize: '1.65rem', marginLeft: '9px', opacity: opacity ? 0.5 : undefined }}>
+      {icon && React.cloneElement(icon as React.ReactElement, { style: { width: sizeIcon, marginRight: '6px', marginTop: '-1.5px' } })} {text}
     </NavDropdown.Item>
   );
 }
@@ -110,24 +110,29 @@ function NavLogic(): JSX.Element {
   const renderNavLinks = (): JSX.Element[] | null => {
     if (!isMobile) {
       return links.map((link) => (
-        <Nav.Link
+        <div
           key={link}
-          className={`text-nowrap nav-link-custom ${localMenuState.selectedLink === link ? "active" : "desactive"}`}
-          href={`#${link.toLowerCase()}`}
+          className="nav-link-wrapper"
           onClick={() => handleClick(link)}
         >
-          {link === "Live" ? (
-            <div className="live-container">
-              <span className="live-img">
-                <LiveAnimation />
-              </span>
-              {link}
-            </div>
-          ) : (
-            <span>{link}</span>
-          )}
-        </Nav.Link>
-      ));
+          <Nav.Link
+            key={link}
+            className={`text-nowrap nav-link-custom ${localMenuState.selectedLink === link ? "active" : "desactive"}`}
+            href={`#${link.toLowerCase()}`}
+          >
+            {link === "Live" ? (
+              <div className="live-container">
+                <span className="live-img">
+                  <LiveAnimation />
+                </span>
+                {link}
+              </div>
+            ) : (
+              <span>{link}</span>
+            )}
+          </Nav.Link>
+        </div>
+      ));      
     }
     return null;
   };
@@ -148,15 +153,18 @@ function NavLogic(): JSX.Element {
               marginTop: "0.1vh",
               marginBottom: "0px",
             }}>
-            <Image src={logo} 
-              style={{
-                marginLeft: `${convertMultiplyVwToPx()}px`,
-                marginRight: "4vw",
-                marginTop: "0.5vh",
-                borderRadius: "20%",
-                width: "8.5vh",
-                height: "8.5vh",
-              }} />
+            <a href="/" style={{ display: 'inline-block', marginRight: "4vw" }}>
+              <Image
+                src={logo}
+                style={{
+                  marginLeft: `${convertMultiplyVwToPx()}px`,
+                  marginTop: "0.5vh",
+                  borderRadius: "20%",
+                  width: "8.5vh",
+                  height: "8.5vh",
+                }}
+              />
+            </a>
             {!isMobile && (
               <Nav id="nav-dropdown" style={{ display: 'inline-flex', alignItems: 'start', marginRight: '0', paddingRight: '0' }}>
                 {renderNavLinks()}
@@ -166,8 +174,8 @@ function NavLogic(): JSX.Element {
           <Nav>
             <NavDropdown
               title={
-                <span style={{ color: '#313131EE', fontWeight: '600' }}>
-                  Olá, Usuário <br /><b>Minha Conta</b>
+                <span style={{ color: '#313131EE', fontWeight: '600', lineHeight: '140%', display: 'inline-block' }}>
+                  Welcome<br /><b>Sign In / Register</b>
                 </span>
               }
               style={{
@@ -179,17 +187,17 @@ function NavLogic(): JSX.Element {
               onMouseEnter={() => setShowDropdown(true)}
               onMouseLeave={() => setShowDropdown(false)}
             >
-            <NavDropdown.Item style={{ marginTop: '13px', marginBottom: '13px' }}>
+            <NavDropdown.Item style={{ marginTop: '13px' }}>
                 <div className="d-grid gap-2">
-                  <Button variant="dark" size="lg" style={{ fontSize: "2rem" }}>
+                  <Button className="fontSignIn" variant="dark" size="lg" style={{ borderRadius: "25px" }}>
                     Sign In
                   </Button>
-                  <Button variant="secondary" size="lg">
+                  <Button className="fontRegister" variant="secondary" size="lg" style={{ background: 'transparent', border: 'none', color: 'inherit', marginTop: '-15px' }}>
                     Register
                   </Button>
                 </div>
               </NavDropdown.Item>
-              <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '13px', marginBottom: '13px' }}/>
+              <NavDropdown.Divider style={{ marginInline: '22px', opacity: 0.5, marginTop: '-5px', marginBottom: '13px' }}/>
                 <MenuItem icon={<LiaClipboardListSolid />} text="My Orders" sizeIcon= '18px' />
                 <MenuItem icon={<BsChatDots />} text="Message Center" sizeIcon= '16px' />
                 <MenuItem icon={<AiOutlineCreditCard />} text="Payment" sizeIcon= '16px'/>

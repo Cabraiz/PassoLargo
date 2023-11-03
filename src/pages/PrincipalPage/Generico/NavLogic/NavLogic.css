@@ -1,8 +1,25 @@
   @font-face {
     font-family: "BlommingElegant";
-    src: local("BlommingElegant"), url("../../../../fonts/BloomingElegant/Blooming\ Elegant\ Sans.otf");
+    src: local("BlommingElegant"), url("../../../../fonts/BloomingElegant/BloomingElegantSans.otf");
   }
-    
+
+  @font-face {
+    font-family: "DroidSans";
+    src: local("DroidSans"), url("../../../../fonts/DroidSans/DroidSans-Bold.ttf");
+  }
+  
+  .fontSignIn{
+    font-family: "DroidSans", sans-serif!important;
+    font-size: 1.4rem!important;
+    letter-spacing: 0.5px;
+  }
+
+  .fontRegister{
+    font-size: 1.4rem!important;
+    opacity: 70%;
+    letter-spacing: 0.5px;
+  }
+
   #nav-dropdown {
     font-family: "BlommingElegant", sans-serif;
     font-weight: 300;
@@ -44,6 +61,10 @@
     margin-top: 0px;
     background-color: none;
     width: 0
+  }
+
+  .nav-link-wrapper {
+    cursor: pointer;
   }
   
   .live-container {
